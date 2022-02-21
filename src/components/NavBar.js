@@ -89,7 +89,7 @@ export default function NavBar() {
           >
             <Grid item marginY={0} paddingY={0}>
               <Typography variant="h4" component="div">
-                <Link href={"/dashboard"}>Key</Link>
+                <Link href={"/dashboard"}>SpyKey</Link>
               </Typography>
             </Grid>
             <Grid item marginY={0} paddingY={0}>
