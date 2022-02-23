@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Container, Grid } from "@mui/material";
+import { Container, Grid, Skeleton } from "@mui/material";
 import Layout from "../../components/Layout";
 import FavoritesTable from "../../components/FavoritesTable";
 import useSWR from "swr";
 import SelectFavManager from "../../components/SelectFavManager";
 import withAuth from "../../hocs/withAuth";
+import Head from "next/head";
 
 const Favorites = () => {
   // const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -47,35 +48,48 @@ const Favorites = () => {
     console.log("CAMBIO A TRUE", dataUpdateIndicator);
   }, [dataUpdateIndicator]);
   return (
-    <Layout>
-      <Container>
-        <Grid marginTop={10}>
-          <Grid item marginBottom={2}>
-            <SelectFavManager
-              setData={setDataFromSelect}
-              updateConfirmation={dataUpdateIndicator}
-              setConditionalIndex={setConditionalIndex}
-            />
-          </Grid>
-          <Grid item>
-            {/*{!!data ? (*/}
-            {/*  <FavoritesTable data={data.data} />*/}
-            {/*) : (*/}
-            {/*  <p>Cargando Favoritos ...</p>*/}
-            {/*)}*/}
-            {!!dataToTable ? (
-              <FavoritesTable
-                data={dataToTable}
-                requestUpdate={requestUpdate}
-                selectedItemIndex={selectItemIndicator}
+    <>
+      <Head>
+        <title>Registros favoritos</title>
+      </Head>
+      <Layout>
+        <Container>
+          <Grid marginTop={10}>
+            <Grid item marginBottom={2}>
+              <SelectFavManager
+                setData={setDataFromSelect}
+                updateConfirmation={dataUpdateIndicator}
+                setConditionalIndex={setConditionalIndex}
               />
-            ) : (
-              <p>Cargando Favoritos ...</p>
-            )}
+            </Grid>
+            <Grid item>
+              {/*{!!data ? (*/}
+              {/*  <FavoritesTable data={data.data} />*/}
+              {/*) : (*/}
+              {/*  <p>Cargando Favoritos ...</p>*/}
+              {/*)}*/}
+              {/*{dataToTable.length > 0 ? (*/}
+
+              {!!dataToTable ? (
+                <FavoritesTable
+                  data={dataToTable}
+                  requestUpdate={requestUpdate}
+                  selectedItemIndex={selectItemIndicator}
+                />
+              ) : (
+                // <p>Cargando Favoritos ...</p>
+                <Skeleton
+                  variant="rectangular"
+                  width={1140}
+                  height={400}
+                  // animation="wave"
+                />
+              )}
+            </Grid>
           </Grid>
-        </Grid>
-      </Container>
-    </Layout>
+        </Container>
+      </Layout>
+    </>
   );
 };
 

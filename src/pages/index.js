@@ -27,7 +27,7 @@ function Copyright(props) {
       align="center"
       {...props}
     >
-      Keylogger {new Date().getFullYear()}
+      SpyKey {new Date().getFullYear()}
       {"."}
     </Typography>
   );
@@ -152,7 +152,7 @@ const Index = () => {
   return (
     <>
       <Head>
-        <title>Dashboard Web - Sign In</title>
+        <title>SpyKey - Sign In</title>
       </Head>
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
