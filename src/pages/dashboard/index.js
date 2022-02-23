@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Skeleton, Typography } from "@mui/material";
 import Layout from "../../components/Layout";
 import KeystrokesChartPie from "../../components/KeystrokesChartPie";
 import ClientsTable from "../../components/ClientsTable";
@@ -109,7 +109,14 @@ const Index = () => {
                 {!!data ? (
                   <DonutChart clients={data} colors={colors} />
                 ) : (
-                  <p>Cargando...</p>
+                  // <p>Cargando</p>
+
+                  <Skeleton
+                    variant="circular"
+                    width={175}
+                    height={175}
+                    // animation="wave"
+                  />
                 )}
               </Grid>
               <Grid paddingY={1}>
@@ -172,7 +179,12 @@ const Index = () => {
             </Grid>
           </Grid>
           <Grid item xs={8} md={14} width={850} marginTop={3}>
-            {!!data ? <ClientsTable data={data} /> : <p>Cargando datos ...</p>}
+            {!!data ? (
+              <ClientsTable data={data} />
+            ) : (
+              // <p>Cargando datos ...</p>
+              <Skeleton variant="rectangular" width={850} height={340} />
+            )}
           </Grid>
         </Grid>
       </Layout>

@@ -13,6 +13,7 @@ import {
   TableRow,
 } from "@mui/material";
 import Image from "next/image";
+import LoadingButton from "@mui/lab/LoadingButton";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import MUIDataTable, { ExpandButton } from "mui-datatables";
 import { ThemeProvider } from "@mui/styles";
@@ -291,11 +292,13 @@ const ArchivedTable = ({ data }) => {
                     >
                       <Grid item>
                         <Button
+                          // loading={true}
                           startIcon={<UnarchiveIcon />}
                           onClick={() => removeFromTheList(rowData[8])}
                         >
                           Desarchivar registro
                         </Button>
+                        {/*<LoadingButton loading={false}>Submit</LoadingButton>*/}
                       </Grid>
                     </Grid>
                   </TableCell>
@@ -327,6 +330,19 @@ const ArchivedTable = ({ data }) => {
       console.log("Error Mark as archived", e);
     }
   };
+
+  async function downloadImage(imageSrc, imageName, date) {
+    const image = await fetch(imageSrc);
+    const imageBlob = await image.blob();
+    const imageURL = URL.createObjectURL(imageBlob);
+
+    const link = document.createElement("a");
+    link.href = imageURL;
+    link.download = `${imageName}_${date}`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
 
   return (
     <ThemeProvider theme={theme}>

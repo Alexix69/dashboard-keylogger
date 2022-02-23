@@ -1,6 +1,7 @@
 import React from "react";
 import Chart from "chart.js/auto";
 import { Pie } from "react-chartjs-2";
+import { Skeleton } from "@mui/material";
 
 const KeystrokesChartPie = ({ clients, colors, borderColors }) => {
   const labels = [];
@@ -64,7 +65,21 @@ const KeystrokesChartPie = ({ clients, colors, borderColors }) => {
       },
     ],
   };
-  return <div>{!!clients ? <Pie data={data} /> : <p>Cargando ...</p>}</div>;
+  return (
+    <div>
+      {!!clients ? (
+        <Pie data={data} />
+      ) : (
+        // <p>Cargandoss ...</p>
+        <Skeleton
+          variant="circular"
+          width={175}
+          height={175}
+          // animation="wave"
+        />
+      )}
+    </div>
+  );
 };
 
 export default KeystrokesChartPie;

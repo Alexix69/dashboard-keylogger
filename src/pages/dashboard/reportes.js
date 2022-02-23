@@ -1,4 +1,4 @@
-import { Alert, Container, Grid } from "@mui/material";
+import { Alert, Container, Grid, Skeleton } from "@mui/material";
 import Layout from "../../components/Layout";
 import ReportsTable from "../../components/ReportsTable";
 import { Input } from "antd";
@@ -14,6 +14,31 @@ import * as React from "react";
 const Reports = () => {
   const [matchingReports, setMatchingReports] = useState([]);
   const [indexToShow, setIndexToShow] = useState([]);
+  // const [data, setData] = useState(null);
+  // const [requestUpdate, setRequestUpdate] = useState(false);
+  // const [totalRecords, setTotalRecords] = useState(0);
+
+  // useEffect(() => {
+  //   getRecords();
+  // }, []);
+
+  // useEffect(() => {
+  //   getRecords();
+  // }, [requestUpdate]);
+
+  // const confirmRequestUpdate = () => {
+  //   setRequestUpdate((prevState) => !prevState);
+  // };
+
+  // const getRecords = async () => {
+  //   try {
+  //     const response = await Report.all();
+  //     console.log("records", response.data);
+  //     setData(response.data);
+  //   } catch (e) {
+  //     console.log("Error at get records");
+  //   }
+  // };
 
   const setFound = (reports) => {
     setMatchingReports(reports);
@@ -31,16 +56,20 @@ const Reports = () => {
   // const [search, setSearch] = useState([]);
   // const [indexToShow, setIndexToShow] = useState([]);
 
+  // DESCOMENTAR ABAJO
+
   const fetcher = (url) => fetch(url).then((res) => res.json());
   // const fetcher = (url) => api.get(url).then((res) => res.data);
 
   const { data, error } = useSWR(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/records`,
-    fetcher
-    // {
-    //   refreshInterval: 30000,
-    // }
+    fetcher,
+    {
+      refreshInterval: 50000,
+    }
   );
+
+  // HASTA AQUÍ
 
   // useEffect(() => {
   //   //getData();
@@ -108,9 +137,11 @@ const Reports = () => {
             </Grid>
 
             <Grid item>
+              {/*{!!data ? (*/}
               {!!data ? (
                 <ReportsTable
                   // indexToShow={search}
+                  // confirmRequestUpdate={confirmRequestUpdate}
                   indexToShow={!!indexToShow.length > 0 ? indexToShow : []}
                   data={
                     matchingReports.length > 0 ? matchingReports : data.data
@@ -124,7 +155,14 @@ const Reports = () => {
                 //     data={matchingReports}
                 //     // totalRecords={data.all_records}
                 //   />
-                <p> Cargando datos ...</p>
+                // <p> Cargando datos ...</p>
+
+                <Skeleton
+                  variant="rectangular"
+                  width={1140}
+                  height={600}
+                  // animation="wave"
+                />
               )}
             </Grid>
           </Grid>
