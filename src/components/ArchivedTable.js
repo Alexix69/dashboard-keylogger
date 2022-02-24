@@ -13,6 +13,8 @@ import {
   TableRow,
 } from "@mui/material";
 import Image from "next/image";
+import UnarchiveButton from "./UnarchiveButton";
+
 import LoadingButton from "@mui/lab/LoadingButton";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import MUIDataTable, { ExpandButton } from "mui-datatables";
@@ -22,6 +24,7 @@ import Report from "../api/report";
 import FavCategModal from "./FavCategModal";
 import Utils from "../utils/utils";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import ArchiveButton from "./ArchiveButton";
 
 const ArchivedTable = ({ data }) => {
   // const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -291,14 +294,18 @@ const ArchivedTable = ({ data }) => {
                       alignItems="center"
                     >
                       <Grid item>
-                        <Button
-                          // loading={true}
-                          startIcon={<UnarchiveIcon />}
-                          onClick={() => removeFromTheList(rowData[8])}
-                        >
-                          Desarchivar registro
-                        </Button>
-                        {/*<LoadingButton loading={false}>Submit</LoadingButton>*/}
+                        {/*<Button*/}
+                        {/*  // loading={true}*/}
+                        {/*  startIcon={<UnarchiveIcon />}*/}
+                        {/*  onClick={() => removeFromTheList(rowData[8])}*/}
+                        {/*>*/}
+                        {/*  Desarchivar registro*/}
+                        {/*</Button>*/}
+                        <UnarchiveButton
+                          indexOfReport={rowData[8]}
+                          // confirmRequestUpdate={confirmRequestUpdate}
+                        />
+                        {/*<ArchiveButton loading={false}>Submit</ArchiveButton>*/}
                       </Grid>
                     </Grid>
                   </TableCell>
@@ -322,14 +329,14 @@ const ArchivedTable = ({ data }) => {
     },
   };
 
-  const removeFromTheList = async (index) => {
-    try {
-      await Report.handleArchivedStatus(index);
-      console.log("SE QUITÓ DE LA LISTA");
-    } catch (e) {
-      console.log("Error Mark as archived", e);
-    }
-  };
+  // const removeFromTheList = async (index) => {
+  //   try {
+  //     await Report.handleArchivedStatus(index);
+  //     console.log("SE QUITÓ DE LA LISTA");
+  //   } catch (e) {
+  //     console.log("Error Mark as archived", e);
+  //   }
+  // };
 
   async function downloadImage(imageSrc, imageName, date) {
     const image = await fetch(imageSrc);

@@ -1,5 +1,5 @@
 import { useAuth } from "../contexts/auth";
-import LoadingAuth from "../components/LoadingAuth";
+import LoadingReportsSpinner from "../components/LoadingReportsSpinner";
 //import Routes from "../constants/routes";
 import { useRouter } from "next/router";
 
@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
  */
 export default function withAuthRedirect({
   WrappedComponent,
-  LoadingComponent = LoadingAuth,
+  LoadingComponent = LoadingReportsSpinner,
   expectedAuth,
   location,
 }) {

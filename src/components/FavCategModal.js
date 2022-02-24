@@ -12,15 +12,20 @@ import { useEffect, useState } from "react";
 import CreateCategModal from "./CreateCategModal";
 import useSWR from "swr";
 import FavoriteCategory from "../api/favorite_category";
+import Utils from "../utils/utils";
+import AddFavoriteButton from "./AddFavoriteButton";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const FavCategModal = ({ indexOfRecord }) => {
-  const [open, setOpen] = React.useState(false);
+const FavCategModal = ({ indexOfRecord, confirmRequestUpdate }) => {
+  const [open, setOpen] = useState(false);
   const [indexOfCategory, setIndexOfCategory] = useState("");
   const [indexOfElementToSend, setIndexOfElementToSend] = useState("");
+
+  const [loading, setLoading] = useState(false);
+
   // const [queryTrigger, setQueryTrigger] = useState("");
 
   // const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -81,16 +86,42 @@ const FavCategModal = ({ indexOfRecord }) => {
 
   const handleClose = async () => {
     if (!!indexOfCategory && !!indexOfElementToSend) {
-      if (indexOfCategory !== "0") {
-        await setFavWithCategory(indexOfCategory, indexOfElementToSend);
+      if (indexOfCategory !== "0" && !loading) {
+        setLoading(true);
+        await setFavWithCategory(indexOfCategory, indexOfElementToSend).then(
+          () => {
+            console.log("TERMINO favorito a categoria");
+            confirmRequestUpdate();
+            setLoading(false);
+          }
+        );
       }
 
-      if (indexOfCategory === "0") {
-        await setFavWithoutCategory(indexOfElementToSend);
+      if (indexOfCategory === "0" && !loading) {
+        setLoading(true);
+        await setFavWithoutCategory(indexOfElementToSend).then(() => {
+          console.log("TERMINO favorito sin categoria");
+          confirmRequestUpdate();
+          setLoading(false);
+        });
       }
     }
-
+    // confirmRequestUpdate();
     setOpen(false);
+
+    // if (!loading) {
+    //   // setSuccess(false);
+    //   setLoading(true);
+    //   // timer.current = window.setTimeout(() => {
+    //   //   setSuccess(true);
+    //   //   setLoading(false);
+    //   // }, 2000);
+    //   Utils.markAsArchived(indexOfReport).then(() => {
+    //     console.log("TERMINO ARCHIVACION");
+    //     confirmRequestUpdate();
+    //     setLoading(false);
+    //   });
+    // }
   };
 
   const handleCancel = () => {
@@ -125,7 +156,8 @@ const FavCategModal = ({ indexOfRecord }) => {
         <DialogActions>
           <CreateCategModal />
           <Button onClick={handleCancel}>Cancelar</Button>
-          <Button onClick={handleClose}>Añadir</Button>
+          {/*<Button onClick={handleClose}>Añadir</Button>*/}
+          <AddFavoriteButton handleClose={handleClose} loading={loading} />
         </DialogActions>
       </Dialog>
     </>

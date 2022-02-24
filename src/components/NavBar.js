@@ -1,6 +1,6 @@
 import * as React from "react";
 import Link from "next/link";
-import { alpha, styled } from "@mui/material/styles";
+import { alpha, styled as MUIstyled } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -16,8 +16,9 @@ import { useRouter } from "next/router";
 import { Container, Grid } from "@mui/material";
 import { useAuth } from "../contexts/auth";
 import { useState } from "react";
+import styled from "styled-components";
 
-const StyledMenu = styled((props) => (
+const StyledMenu = MUIstyled((props) => (
   <Menu
     elevation={0}
     anchorOrigin={{
@@ -78,7 +79,7 @@ export default function NavBar() {
 
   return (
     <Container>
-      <AppBar>
+      <StyledAppBar>
         <Toolbar>
           <Grid
             container
@@ -148,7 +149,11 @@ export default function NavBar() {
             </Grid>
           </Grid>
         </Toolbar>
-      </AppBar>
+      </StyledAppBar>
     </Container>
   );
 }
+
+const StyledAppBar = styled(AppBar)`
+  background-image: radial-gradient(at 5px 10px, rebeccapurple, black);
+`;
