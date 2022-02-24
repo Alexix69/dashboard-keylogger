@@ -13,7 +13,6 @@ import * as React from "react";
 import styled from "styled-components";
 import ProgressCircleReports from "../../components/ProgressCircleReports";
 import Button from "@mui/material/Button";
-import LoadingReportsSpinner from "../../components/LoadingReportsSpinner";
 
 const Reports = () => {
   const [matchingReports, setMatchingReports] = useState([]);
