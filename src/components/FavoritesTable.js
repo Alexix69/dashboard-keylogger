@@ -16,6 +16,7 @@ import Image from "next/image";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import MUIDataTable, { ExpandButton } from "mui-datatables";
 import { ThemeProvider } from "@mui/styles";
+import ArchivedButton from "../components/ArchiveButton";
 import StarIcon from "@mui/icons-material/Star";
 import Report from "../api/report";
 import FolderOffIcon from "@mui/icons-material/FolderOff";
@@ -310,13 +311,17 @@ const FavoritesTable = ({ data, requestUpdate, selectedItemIndex }) => {
                         </Button>
                       </Grid>
                       <Grid item paddingX={2}>
-                        <Button
-                          startIcon={<ArchiveIcon />}
-                          onClick={() => markAsArchived(rowData[8])}
-                          // onClick={() => console.log(rowData[9])}
-                        >
-                          Archivar
-                        </Button>
+                        {/*<Button*/}
+                        {/*  startIcon={<ArchiveIcon />}*/}
+                        {/*  onClick={() => markAsArchived(rowData[8])}*/}
+                        {/*  // onClick={() => console.log(rowData[9])}*/}
+                        {/*>*/}
+                        {/*  Archivar*/}
+                        {/*</Button>*/}
+                        <ArchivedButton
+                          indexOfReport={rowData[8]}
+                          confirmRequestUpdate={requestUpdate}
+                        />
                       </Grid>
                       {!!selectedItemIndex && selectedItemIndex !== 0 ? (
                         <Grid item paddingLeft={1}>

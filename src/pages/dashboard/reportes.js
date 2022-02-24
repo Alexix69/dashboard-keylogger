@@ -10,35 +10,52 @@ import api from "../../api";
 import SearchInput from "../../components/SearchInput";
 import Head from "next/head";
 import * as React from "react";
+import styled from "styled-components";
+import ProgressCircleReports from "../../components/ProgressCircleReports";
+import Button from "@mui/material/Button";
+import LoadingReportsSpinner from "../../components/LoadingReportsSpinner";
 
 const Reports = () => {
   const [matchingReports, setMatchingReports] = useState([]);
   const [indexToShow, setIndexToShow] = useState([]);
-  // const [data, setData] = useState(null);
-  // const [requestUpdate, setRequestUpdate] = useState(false);
+  const [data, setData] = useState(null);
+  const [confirmRefreshButton, setConfirmRefreshButton] = useState(false);
+  const [requestUpdate, setRequestUpdate] = useState(false);
+  const [renderCircleProgress, setRenderCircleProgress] = useState(false);
   // const [totalRecords, setTotalRecords] = useState(0);
 
-  // useEffect(() => {
-  //   getRecords();
-  // }, []);
+  useEffect(() => {
+    // if (!!confirmRefreshButton) {
+    setRenderCircleProgress(true);
+    console.log("EMPIEZA REFRESH");
+    getRecords().then(() => {
+      console.log("TERMINA CONSULTA GET RECORDS");
+      setRenderCircleProgress(false);
+    });
+    // }
+  }, [confirmRefreshButton, requestUpdate]);
 
   // useEffect(() => {
   //   getRecords();
   // }, [requestUpdate]);
 
-  // const confirmRequestUpdate = () => {
-  //   setRequestUpdate((prevState) => !prevState);
-  // };
+  const confirmRequestUpdate = () => {
+    setRequestUpdate((prevState) => !prevState);
+  };
 
-  // const getRecords = async () => {
-  //   try {
-  //     const response = await Report.all();
-  //     console.log("records", response.data);
-  //     setData(response.data);
-  //   } catch (e) {
-  //     console.log("Error at get records");
-  //   }
-  // };
+  const setConfirmationButton = () => {
+    setConfirmRefreshButton((prevState) => !prevState);
+  };
+
+  const getRecords = async () => {
+    try {
+      const response = await Report.all();
+      console.log("records", response.data);
+      setData(response.data);
+    } catch (e) {
+      console.log("Error at get records");
+    }
+  };
 
   const setFound = (reports) => {
     setMatchingReports(reports);
@@ -57,7 +74,7 @@ const Reports = () => {
   // const [indexToShow, setIndexToShow] = useState([]);
 
   // DESCOMENTAR ABAJO
-
+  /*
   const fetcher = (url) => fetch(url).then((res) => res.json());
   // const fetcher = (url) => api.get(url).then((res) => res.data);
 
@@ -68,7 +85,7 @@ const Reports = () => {
       refreshInterval: 50000,
     }
   );
-
+*/
   // HASTA AQUÍ
 
   // useEffect(() => {
@@ -128,12 +145,17 @@ const Reports = () => {
             {/*    })*/}
             {/*  }*/}
             {/*/>*/}
+
             <Grid item marginBottom={2}>
               <SearchInput
+                setConfirmationButton={setConfirmationButton}
                 setReports={setFound}
                 matchingReports={matchingReports}
                 setIndexToShow={setToShow}
+                renderCircleProgress={renderCircleProgress}
               />
+              {/*<LoadingReportsSpinner />*/}
+              {/*<AuxSpinner />*/}
             </Grid>
 
             <Grid item>
@@ -141,7 +163,7 @@ const Reports = () => {
               {!!data ? (
                 <ReportsTable
                   // indexToShow={search}
-                  // confirmRequestUpdate={confirmRequestUpdate}
+                  confirmRequestUpdate={confirmRequestUpdate}
                   indexToShow={!!indexToShow.length > 0 ? indexToShow : []}
                   data={
                     matchingReports.length > 0 ? matchingReports : data.data
@@ -156,13 +178,15 @@ const Reports = () => {
                 //     // totalRecords={data.all_records}
                 //   />
                 // <p> Cargando datos ...</p>
-
-                <Skeleton
-                  variant="rectangular"
-                  width={1140}
-                  height={600}
-                  // animation="wave"
-                />
+                <>
+                  {/*<ProgressCircleReports />*/}
+                  <Skeleton
+                    variant="rectangular"
+                    width={1140}
+                    height={600}
+                    // animation="wave"
+                  />
+                </>
               )}
             </Grid>
           </Grid>
@@ -173,3 +197,15 @@ const Reports = () => {
 };
 
 export default withAuth(Reports);
+
+const StyledProgressCircleReports = styled(ProgressCircleReports)`
+  position: absolute;
+
+  left: 500px;
+  z-index: 500;
+`;
+
+const StyledReportsTable = styled(ReportsTable)`
+  position: relative;
+  z-index: 100;
+`;

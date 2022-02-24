@@ -4,8 +4,16 @@ import { Controller, useForm } from "react-hook-form";
 import Button from "@mui/material/Button";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Report from "../api/report";
+import RefreshContentButton from "./RefreshContentButton";
+import ProgressCircleReports from "./ProgressCircleReports";
 
-const SearchInput = ({ setReports, matchingReports, setIndexToShow }) => {
+const SearchInput = ({
+  setReports,
+  matchingReports,
+  setIndexToShow,
+  setConfirmationButton,
+  renderCircleProgress,
+}) => {
   const [keystrokes, setKeystrokes] = useState([]);
   const [toSearch, setToSearch] = useState("");
   const [alertController, setAlertController] = useState(null);
@@ -92,8 +100,16 @@ const SearchInput = ({ setReports, matchingReports, setIndexToShow }) => {
       alignItems="center"
       // spacing={5}
     >
-      <Grid item paddingLeft={55}>
+      <Grid item paddingRight={10}>
+        <RefreshContentButton setConfirmationButton={setConfirmationButton} />
+      </Grid>
+      <Grid item paddingX={13}>
+        {!!renderCircleProgress ? <ProgressCircleReports /> : null}
+        {/*<ProgressCircleReports />*/}
+      </Grid>
+      <Grid item paddingLeft={10}>
         {/*<Grid item>*/}
+
         <form
           onSubmit={handleSubmit(onSubmit)}
           // onSubmit={() => console.log("on submit")}
