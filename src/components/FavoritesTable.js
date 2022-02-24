@@ -379,15 +379,28 @@ const FavoritesTable = ({ data, requestUpdate, selectedItemIndex }) => {
     }
   };
 
-  const markAsArchived = async (index) => {
-    try {
-      await Report.handleArchivedStatus(index);
-      requestUpdate();
-      console.log("SE TERMINO ARCHIVACION");
-    } catch (e) {
-      console.log("Error Mark as archived", e);
-    }
-  };
+  // const markAsArchived = async (index) => {
+  //   try {
+  //     await Report.handleArchivedStatus(index);
+  //     requestUpdate();
+  //     console.log("SE TERMINO ARCHIVACION");
+  //   } catch (e) {
+  //     console.log("Error Mark as archived", e);
+  //   }
+  // };
+
+  async function downloadImage(imageSrc, imageName, date) {
+    const image = await fetch(imageSrc);
+    const imageBlob = await image.blob();
+    const imageURL = URL.createObjectURL(imageBlob);
+
+    const link = document.createElement("a");
+    link.href = imageURL;
+    link.download = `${imageName}_${date}`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
 
   return (
     <ThemeProvider theme={theme}>
